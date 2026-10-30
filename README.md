@@ -2,7 +2,7 @@
 
 A Jellyfin plugin that gives your server a home-cinema opening: it downloads current movie trailers, then plays **a few trailers followed by your own intro** before each movie, always in that order.
 
-> **Status: early release.** The trailer downloading, matching and rotation come from a mature upstream plugin (see [Credits](#credits-and-licence)). The part this project adds, the custom intro that plays after the trailers, is new code with limited testing so far. Tested by the author on Jellyfin 12.3.0 in Docker. Other versions and client apps are untested. See [Known limitations](#known-limitations).
+> **Status: early release.** The trailer downloading, matching and rotation come from an upstream plugin (see [Credits](#credits-and-licence)). The part this project adds, the custom intro that plays after the trailers, is new code. The author has tested it on one setup, Jellyfin 12.3.0 in Docker, where trailers play first and then the intro. Other Jellyfin versions and client apps are untested, so please report what you find. See [Known limitations](#known-limitations).
 
 ## Features
 
