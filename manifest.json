@@ -6,6 +6,15 @@
     "overview": "Trailers, then your custom intro, before every movie",
     "owner": "Cinema Sequencer contributors",
     "category": "General",
-    "versions": []
+    "versions": [
+      {
+        "version": "2.0.0.0",
+        "changelog": "First release of Cinema Sequencer, forked from [Trailers4Jellyfin](https://github.com/robadieNZ/Trailers4Jellyfin) v1.0.18.0 by robadieNZ.\n\n### Added\n- **Custom intro** setting (`IntroPath`). The intro plays after the trailers, from the same intro provider, so the order is always trailers first and intro last. The intro's folder must be a Jellyfin Movies library.\n- \"English only\" button on the settings page.\n- An About section on the settings page with the upstream credit and the TMDB attribution notice.\n- Intros are never queued in front of the trailers or the intro file itself.\n- Release tooling: packaging script, manifest updater, build and release workflows, and a script that checks the repository for secrets and personal data.\n\n### Changed\n- Language filter now defaults to English (`en`). Upstream defaults to all languages.\n- Renamed the plugin, namespace and GUID so it can replace or run beside the original. Do not run both at once: each would queue its own trailers.\n- Settings page wording: recommends the TMDB Read Access Token (sent in a header) over the v3 key (sent in the URL), and warns that the YouTube cookies file is a credential.\n- Build properties `JellyfinVersion` and `TFM` can be overridden on the command line.\n\n### Unchanged from upstream\nTMDB and YouTube downloading, yt-dlp and built-in downloader handling, genre and rating matching, rotation and caps.",
+        "targetAbi": "10.11.0.0",
+        "sourceUrl": "https://github.com/codbar-sec/jellyfin-plugin-cinema-sequencer/releases/download/v2.0.0/cinema-sequencer_2.0.0.0.zip",
+        "checksum": "8582f5034b5b28055fa88794027a56c2",
+        "timestamp": "2026-10-30T04:06:57Z"
+      }
+    ]
   }
 ]
