@@ -1,0 +1,67 @@
+name: release
+
+# Push a tag like v2.0.0 to publish a release. The tag must match CHANGELOG.md (## [2.0.0]).
+on:
+  push:
+    tags:
+      - "v[0-9]+.[0-9]+.[0-9]+"
+
+permissions:
+  contents: write
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    env:
+      TAG: ${{ github.ref_name }}
+      REPO: ${{ github.repository }}
+      GH_TOKEN: ${{ github.token }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: "9.0.x"
+
+      - name: Validate tag and derive version
+        id: ver
+        run: |
+          if ! [[ "$TAG" =~ ^v[0-9]+\.[0-9]+\.[0-9]+$ ]]; then
+            echo "Bad tag: $TAG" >&2; exit 1
+          fi
+          V3="${TAG#v}"
+          echo "v3=$V3" >> "$GITHUB_OUTPUT"
+          echo "v4=$V3.0" >> "$GITHUB_OUTPUT"
+
+      - name: Secret and personal-data scan
+        run: bash scripts/check-no-secrets.sh
+
+      - name: Build and package
+        run: bash scripts/package.sh "${{ steps.ver.outputs.v4 }}" dist
+
+      - name: Create GitHub release
+        run: |
+          ZIP="dist/cinema-sequencer_${{ steps.ver.outputs.v4 }}.zip"
+          python3 - <<'PY' > release-notes.md
+          import os, re
+          v3 = "${{ steps.ver.outputs.v3 }}"
+          text = open("CHANGELOG.md", encoding="utf-8").read()
+          m = re.search(rf"^## \[{re.escape(v3)}\][^\n]*\n(.*?)(?=^## \[|\Z)", text, re.S | re.M)
+          print(m.group(1).strip() if m else f"Release {v3}. See CHANGELOG.md.")
+          PY
+          gh release create "$TAG" "$ZIP" --title "Cinema Sequencer $TAG" --notes-file release-notes.md
+
+      - name: Update manifest.json on main
+        run: |
+          git fetch origin main
+          git checkout -B main origin/main
+          python3 scripts/update_manifest.py \
+            --manifest manifest.json \
+            --version "${{ steps.ver.outputs.v4 }}" \
+            --zip "dist/cinema-sequencer_${{ steps.ver.outputs.v4 }}.zip" \
+            --repo "$REPO" --tag "$TAG" --changelog CHANGELOG.md
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add manifest.json
+          git commit -m "chore: add ${TAG} to plugin manifest"
+          git push origin main

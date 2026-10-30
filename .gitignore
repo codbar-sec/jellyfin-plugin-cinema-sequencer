@@ -1,0 +1,45 @@
+# Build output
+bin/
+obj/
+out/
+dist/
+publish/
+*.dll
+*.pdb
+*.nupkg
+*.zip
+
+# Python
+__pycache__/
+*.pyc
+
+# IDE
+.vs/
+.idea/
+*.user
+*.suo
+.vscode/
+
+# SECRETS and personal data: never commit these
+.env
+.env.*
+*.pem
+*.key
+cookies*.txt
+*cookies*.txt
+Jellyfin.Plugin.*.xml
+*.log
+*.bak*
+.secretscan-extra
+
+# Local media and test files
+*.mp4
+*.mkv
+*.mov
+intro.*
+trailers/
+preroll/
+
+# OS
+.DS_Store
+Thumbs.db

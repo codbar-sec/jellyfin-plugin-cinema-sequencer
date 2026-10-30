@@ -1,0 +1,11 @@
+[
+  {
+    "guid": "b7c1e2a4-5d3f-4c8a-9e61-2f0a7d4b1c93",
+    "name": "Cinema Sequencer",
+    "description": "Downloads trailers, then plays N trailers followed by your own intro before each movie. Fork of Trailers4Jellyfin by robadieNZ (MIT).",
+    "overview": "Trailers, then your custom intro, before every movie",
+    "owner": "Cinema Sequencer contributors",
+    "category": "General",
+    "versions": []
+  }
+]
